@@ -5,22 +5,26 @@ using UnityEngine;
 
 public class BombScript : MonoBehaviour
 {
+    float timer, timeToExplode = 5;
     // Start is called before the first frame update
     void Start()
     {
-        
+        timer = timeToExplode;
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Return)) {
+        timer -= Time.deltaTime;
+
+        if (timer < 0) {
             explode();
         }
     }
 
     private void explode()
     {
+        
        Collider[] victims = Physics.OverlapSphere(transform.position, 10);
 
         foreach (Collider victim in victims)
@@ -29,5 +33,7 @@ public class BombScript : MonoBehaviour
            if (rb_victim != null)
             rb_victim.AddExplosionForce(2000,transform.position,10);
         }
+        Destroy(gameObject);
+       
     }
 }
